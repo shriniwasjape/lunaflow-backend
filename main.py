@@ -75,14 +75,19 @@ Cycle Phase: {phase} (Day {day})
 PCOS Type: {pcos_type}
 Logged Symptoms: {symptoms}
 
-Analyze the symptoms and phase carefully.
-CRITICAL: If symptoms include "Period Ended Today", acknowledge the transition to follicular phase.
+Analyze their symptoms, current phase, and their specific PCOS Type very carefully.
+CRITICAL RULES: 
+- If their PCOS Type is "Insulin Resistant", aggressively prioritize low-GI foods, high fiber, and protein.
+- If "Adrenal", prioritize stress-reduction, lowering cortisol, and soothing foods.
+- If "Inflammatory", suggest rich antioxidants, omega-3s, and avoid inflammatory triggers.
+- If "Post-Pill", focus on gut health, zinc, and nutrient absorption.
+- If symptoms include "Period Ended Today", acknowledge the transition.
 
-Return ONLY valid JSON (no markdown fences, no extra text):
+Return ONLY valid JSON:
 {{
-  "insight": "2-3 warm empathetic sentences addressing {name} directly, validating how they feel and what to focus on today.",
-  "diet": "One specific Indian meal or snack that directly addresses their symptoms, with a brief reason why.",
-  "movement": "One workout or movement suggestion suitable for their energy level today.",
+  "insight": "2-3 warm empathetic sentences addressing {name} directly, validating their current symptoms and their {pcos_type} progression.",
+  "diet": "One specific Indian meal/snack scientifically tailored to exactly match their PCOS type and current symptoms.",
+  "movement": "One specific workout or physical suggestion suitable for their energy level today.",
   "mindfulness": "One self-care or mental health practice based on their mood/stress today."
 }}
 """
@@ -116,14 +121,15 @@ About the user right now:
 - Today's logged symptoms: {symptoms}
 
 Your personality:
-- Warm, empathetic, and supportive — like a knowledgeable friend
+- Warm, empathetic, and supportive — like a knowledgeable best friend
 - Evidence-based but never clinical or cold
 - Focused on PCOS, menstrual health, nutrition, movement, and mental wellness
-- Keep responses concise (2-4 sentences) unless the user asks for detail
+- PROACTIVE MEMORY: You must always remember their symptoms and PCOS type. 
+- ALWAYS BE ENGAGING: Do not just dryly answer questions. Always end your message by asking a short, caring follow-up question checking in on their specific symptoms or daily routine.
+- Keep responses concise (2-4 sentences) unless they ask for heavy detail
 - Use a relevant emoji occasionally to keep tone friendly
-- Never diagnose or replace medical advice — always suggest consulting a doctor for serious concerns
 
-If the user asks about their daily plan, diet, movement, or mindfulness — give personalized advice based on their phase and symptoms.
+If the user asks about their daily plan, prioritize advice tuned specifically to their {pcos_type} PCOS profile.
 """
 
 # --- 5. ENDPOINTS ---
