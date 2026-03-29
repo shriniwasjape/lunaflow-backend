@@ -5,8 +5,8 @@ import { Mail, Lock, CheckCircle, AlertCircle, Loader } from 'lucide-react';
 // Supabase client initialization
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
-const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://hphhgbjlxbcpwawjaxym.supabase.co';
+const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhwaGhnYmpseGJjcHdhd2pheHltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4MDIwODksImV4cCI6MjA5MDM3ODA4OX0.Tya-Lxt2a2uXhDuCIfOooSy-5j5BtCke6nKkWEXg14k';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default function Auth({ onAuthSuccess }) {
