@@ -20,8 +20,8 @@ GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
 if not GROQ_API_KEY:
     print("⚠️  WARNING: GROQ_API_KEY not set. Chat will fail.")
 
-gemini_client = genai.Client(api_key=GEMINI_API_KEY)
-groq_client = AsyncGroq(api_key=GROQ_API_KEY)
+gemini_client = genai.Client(api_key=GEMINI_API_KEY) if GEMINI_API_KEY else None
+groq_client = AsyncGroq(api_key=GROQ_API_KEY or "missing_key")
 
 GEMINI_MODEL = "gemini-2.5-flash-lite"
 GROQ_MODEL = "llama-3.3-70b-versatile"
