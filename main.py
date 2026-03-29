@@ -9,14 +9,22 @@ from pydantic import BaseModel
 from PIL import Image
 from google import genai
 from google.genai import types
+from groq import AsyncGroq
 
 # --- 1. SETUP ---
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 if not GEMINI_API_KEY:
-    print("⚠️  WARNING: GEMINI_API_KEY not set. AI features will fail.")
+    print("⚠️  WARNING: GEMINI_API_KEY not set. Scanner will fail.")
 
-client = genai.Client(api_key=GEMINI_API_KEY)
-MODEL = "gemini-2.5-flash-lite"
+GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
+if not GROQ_API_KEY:
+    print("⚠️  WARNING: GROQ_API_KEY not set. Chat will fail.")
+
+gemini_client = genai.Client(api_key=GEMINI_API_KEY)
+groq_client = AsyncGroq(api_key=GROQ_API_KEY)
+
+GEMINI_MODEL = "gemini-2.5-flash-lite"
+GROQ_MODEL = "llama-3.3-70b-versatile"
 
 app = FastAPI(title="LunaFlow API", version="2.0")
 
@@ -52,6 +60,7 @@ class ChatRequest(BaseModel):
 
 # --- 3. HELPERS ---
 def safe_parse_json(text: str) -> dict:
+    if not text: return {}
     text = text.strip()
     match = re.search(r"```(?:json)?\s*([\s\S]*?)```", text)
     if match:
@@ -141,14 +150,13 @@ async def generate_plan(request: DailyPlanRequest):
             pcos_type=request.pcosType or "General",
             symptoms=symptoms_text,
         )
-        response = await client.aio.models.generate_content(
-            model=MODEL,
-            contents=prompt,
-            config=types.GenerateContentConfig(
-                response_mime_type="application/json"
-            ),
+        response = await groq_client.chat.completions.create(
+            model=GROQ_MODEL,
+            response_format={"type": "json_object"},
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.5
         )
-        return safe_parse_json(response.text)
+        return safe_parse_json(response.choices[0].message.content)
 
     except json.JSONDecodeError as e:
         print(f"JSON parse error (Daily Plan): {e}\nRaw: {response.text[:300]}")
@@ -173,24 +181,23 @@ async def chat_with_luna(request: ChatRequest):
             symptoms=symptoms_text,
         )
 
-        # Build full conversation string
-        conversation_parts = [system_context, "---"]
-        for msg in request.history[-12:]:  # keep last 12 messages for context
-            prefix = "User" if msg.role == "user" else "Luna"
-            conversation_parts.append(f"{prefix}: {msg.content}")
-        conversation_parts.append(f"User: {request.message}")
-        conversation_parts.append("Luna:")
+        messages = [
+            {"role": "system", "content": system_context}
+        ]
+        for msg in request.history[-10:]:
+            # Ensure roles are strictly 'user' or 'assistant'
+            role = "assistant" if msg.role.lower() == "luna" else "user"
+            messages.append({"role": role, "content": msg.content})
+            
+        messages.append({"role": "user", "content": request.message})
 
-        full_prompt = "\n\n".join(conversation_parts)
-
-        response = await client.aio.models.generate_content(
-            model=MODEL,
-            contents=full_prompt,
+        response = await groq_client.chat.completions.create(
+            model=GROQ_MODEL,
+            messages=messages,
+            temperature=0.7,
+            max_tokens=300
         )
-        reply = response.text.strip()
-        # Remove "Luna:" prefix if model echoed it
-        if reply.lower().startswith("luna:"):
-            reply = reply[5:].strip()
+        reply = response.choices[0].message.content.strip()
 
         return {"reply": reply}
 
@@ -210,8 +217,8 @@ async def scan_food(phase: str, file: UploadFile = File(...)):
 
         prompt = SCANNER_PROMPT.format(phase=phase)
 
-        response = await client.aio.models.generate_content(
-            model=MODEL,
+        response = await gemini_client.aio.models.generate_content(
+            model=GEMINI_MODEL,
             contents=[prompt, img],
             config=types.GenerateContentConfig(
                 response_mime_type="application/json"
