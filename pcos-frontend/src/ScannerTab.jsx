@@ -22,7 +22,7 @@ export default function ScannerTab({ phase }) {
     setLoading(true); setResult(null);
     const fd = new FormData(); fd.append('file', file);
     try {
-      const res = await fetch(`http://localhost:8000/api/scan-food?phase=${phase}`, { method: 'POST', body: fd });
+      const res = await fetch(`https://lunaflow-api.onrender.com/api/scan-food?phase=${phase}`, { method: 'POST', body: fd });
       setResult(await res.json());
     } catch (e) { console.error(e); } finally { setLoading(false); }
   };

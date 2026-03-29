@@ -12,7 +12,7 @@ function DailyPlanCards({ userProfile, cycleData, loggedSymptoms }) {
     try {
       setLoading(true);
       setError(null);
-      const res = await fetch('http://localhost:8000/api/generate-daily-plan', {
+      const res = await fetch('https://lunaflow-api.onrender.com/api/generate-daily-plan', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: userProfile.name,

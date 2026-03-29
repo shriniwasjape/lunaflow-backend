@@ -42,7 +42,7 @@ export default function AITab({ userProfile, cycleData, loggedSymptoms }) {
     setMessages(prev => [...prev, userMsg]);
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:8000/api/chat', {
+      const res = await fetch('https://lunaflow-api.onrender.com/api/chat', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: msg, name: userProfile.name, phase: cycleData.phase.name, dayOfCycle: cycleData.dayOfCycle, pcosType: userProfile.pcosType, symptoms: loggedSymptoms, history: messages.slice(-10) }),
       });

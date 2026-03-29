@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">LunaFlow</string>
+    <string name="title_activity_main">LunaFlow</string>
+    <string name="package_name">com.kashish.lunaflow</string>
+    <string name="custom_url_scheme">com.kashish.lunaflow</string>
+</resources>
