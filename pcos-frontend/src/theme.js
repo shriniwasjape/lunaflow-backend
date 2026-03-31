@@ -1,43 +1,43 @@
 // ── Color System ─────────────────────────────────────────────
 export const C = {
-  // Backgrounds
-  bg:         '#1a0612',
-  bgMid:      '#2d0d22',
-  card:       'rgba(255,192,203,0.07)',
-  cardHover:  'rgba(255,192,203,0.12)',
-  border:     'rgba(255,182,193,0.14)',
-  borderSoft: 'rgba(255,182,193,0.08)',
+  // Backgrounds — warm white / blush base
+  bg:         '#fff8f9',
+  bgMid:      '#fef0f3',
+  card:       'rgba(255,255,255,0.92)',
+  cardHover:  'rgba(255,255,255,1.0)',
+  border:     'rgba(236,72,153,0.15)',
+  borderSoft: 'rgba(236,72,153,0.07)',
 
   // Pinks & Rose
   rose:      '#f43f5e',
   pink:      '#ec4899',
-  hotPink:   '#f472b6',
-  softPink:  '#fda4af',
+  hotPink:   '#db2777',
+  softPink:  '#f9a8c9',
   blush:     '#fce7f3',
-  mauve:     '#e879f9',
-  lavender:  '#c084fc',
+  mauve:     '#d946a8',
+  lavender:  '#a855f7',
   peach:     '#fb923c',
 
-  // Text
-  text:      '#fff',
-  textTint:  'rgba(253,164,175,0.9)',
-  textMid:   'rgba(253,164,175,0.55)',
-  textMuted: 'rgba(255,182,193,0.35)',
+  // Text — dark charcoal on light bg
+  text:      '#1f1235',
+  textTint:  'rgba(31,18,53,0.78)',
+  textMid:   'rgba(31,18,53,0.52)',
+  textMuted: 'rgba(31,18,53,0.36)',
 
   // Gradients
   grad:       'linear-gradient(135deg, #f43f5e, #ec4899)',
-  gradSoft:   'linear-gradient(135deg, #fda4af, #c084fc)',
+  gradSoft:   'linear-gradient(135deg, #f9a8c9, #c084fc)',
   gradRose:   'linear-gradient(135deg, #be185d, #f43f5e)',
-  gradPurple: 'linear-gradient(135deg, #ec4899, #c084fc)',
+  gradPurple: 'linear-gradient(135deg, #ec4899, #a855f7)',
   gradPeach:  'linear-gradient(135deg, #fb923c, #ec4899)',
 };
 
 // ── Phase styles ──────────────────────────────────────────────
 export const PSTYLES = {
-  menstrual:  { color: '#f43f5e', bg: 'rgba(244,63,94,0.22)',   label: 'Menstrual',  emoji: '🌹' },
-  follicular: { color: '#f472b6', bg: 'rgba(244,114,182,0.2)', label: 'Follicular', emoji: '🌸' },
-  ovulatory:  { color: '#fb923c', bg: 'rgba(251,146,60,0.2)',  label: 'Fertile',    emoji: '🌼' },
-  luteal:     { color: '#c084fc', bg: 'rgba(192,132,252,0.2)', label: 'Luteal',     emoji: '🌙' },
+  menstrual:  { color: '#f43f5e', bg: 'rgba(244,63,94,0.09)',   label: 'Menstrual',  emoji: '🌹' },
+  follicular: { color: '#ec4899', bg: 'rgba(236,72,153,0.09)', label: 'Follicular', emoji: '🌸' },
+  ovulatory:  { color: '#f59e0b', bg: 'rgba(245,158,11,0.09)', label: 'Fertile',    emoji: '🌼' },
+  luteal:     { color: '#a855f7', bg: 'rgba(168,85,247,0.09)', label: 'Luteal',     emoji: '🌙' },
 };
 
 // ── All JSX SVG components are in theme.jsx ───────────────────

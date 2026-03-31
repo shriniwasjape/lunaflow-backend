@@ -10,11 +10,13 @@ import ScannerTab from './ScannerTab';
 import ProfileTab from './ProfileTab';
 import AITab from './AITab';
 import PeriodModal from './PeriodModal';
+import ReportTab from './ReportTab';
 
 const NAV_TABS = [
   { id: 'home',     label: 'Home',    emoji: '🏠' },
   { id: 'calendar', label: 'Cycle',   emoji: '📅' },
   { id: 'log',      label: 'Log',     emoji: '📝' },
+  { id: 'report',   label: 'Report',  emoji: '📊' },
   { id: 'ai',       label: 'Luna',    emoji: '🌙' },
   { id: 'profile',  label: 'Me',      emoji: '🌸' },
 ];
@@ -23,7 +25,7 @@ function BottomNav({ active, setActive }) {
   return (
     <div style={{
       position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 100,
-      background: 'rgba(26,6,18,0.96)', backdropFilter: 'blur(28px)',
+      background: 'rgba(255,248,249,0.97)', backdropFilter: 'blur(28px)',
       borderTop: `1px solid ${C.border}`,
       display: 'flex', padding: '8px 0 max(10px,env(safe-area-inset-bottom))',
       maxWidth: 480, margin: '0 auto',
@@ -90,7 +92,7 @@ function Background({ phaseIndex }) {
         borderRadius: '50%', 
         background: c, 
         filter: 'blur(100px)', 
-        opacity: 0.18, 
+        opacity: 0.10, 
         top: '-20%', 
         left: '-15%', 
         animation: 'orb0 10s ease-in-out infinite alternate' 
@@ -102,7 +104,7 @@ function Background({ phaseIndex }) {
         borderRadius: '50%', 
         background: C.mauve, 
         filter: 'blur(80px)', 
-        opacity: 0.14, 
+        opacity: 0.07, 
         top: '30%', 
         right: '-15%', 
         animation: 'orb1 12s ease-in-out infinite alternate' 
@@ -112,9 +114,9 @@ function Background({ phaseIndex }) {
         width: 300, 
         height: 300, 
         borderRadius: '50%', 
-        background: C.pink, 
+        background: C.softPink, 
         filter: 'blur(90px)', 
-        opacity: 0.12, 
+        opacity: 0.08, 
         bottom: '-15%', 
         left: '10%', 
         animation: 'orb2 9s ease-in-out infinite alternate' 
@@ -141,6 +143,16 @@ export default function App() {
   const [loggedSymptoms, setLoggedSymptoms] = useState([]);
   const [cycleHistory, setCycleHistory] = useState([]);
   const [showPeriodModal, setShowPeriodModal] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+
+  // Dynamic theme override for dark mode
+  const DT = darkMode ? {
+    bg: '#1a0612', card: 'rgba(255,192,203,0.07)', border: 'rgba(255,182,193,0.14)',
+    text: '#fff', textMid: 'rgba(253,164,175,0.55)', navBg: 'rgba(26,6,18,0.96)'
+  } : {
+    bg: C.bg, card: C.card, border: C.border,
+    text: C.text, textMid: C.textMid, navBg: 'rgba(255,248,249,0.97)'
+  };
 
   // Check authentication state on mount
   useEffect(() => {
@@ -388,14 +400,16 @@ export default function App() {
             {activeTab === 'home' && <HomeTab userProfile={userProfile} cycleData={cycleData} loggedSymptoms={loggedSymptoms} onNavigate={setActiveTab} onPeriodLog={() => setShowPeriodModal(true)} />}
             {activeTab === 'calendar' && <CalendarTab cycleHistory={cycleHistory} />}
             {activeTab === 'log' && <LogTab onSymptomsUpdate={syms => setLoggedSymptoms(syms)} initialSelected={loggedSymptoms} />}
+            {activeTab === 'report' && <ReportTab userId={user?.id} />}
             {activeTab === 'ai' && <AITab userProfile={userProfile} cycleData={cycleData} loggedSymptoms={loggedSymptoms} />}
             {activeTab === 'scanner' && <ScannerTab phase={cycleData.phase.name} />}
-            {activeTab === 'profile' && <ProfileTab userProfile={userProfile} cycleData={cycleData} onReset={handleReset} onUpdateProfile={draft => saveProfile({ ...userProfile, ...draft })} />}
+            {activeTab === 'profile' && <ProfileTab userProfile={userProfile} cycleData={cycleData} onReset={handleReset} onUpdateProfile={draft => saveProfile({ ...userProfile, ...draft })} darkMode={darkMode} onToggleDarkMode={() => setDarkMode(d => !d)} />}
           </div>
-          <BottomNav active={activeTab} setActive={setActiveTab} />
+          <BottomNav active={activeTab} setActive={setActiveTab} darkMode={darkMode} />
           {showPeriodModal && <PeriodModal onClose={() => setShowPeriodModal(false)} onCycleUpdated={handleCycleUpdated} />}
         </div>
       )}
     </div>
   );
 }
+

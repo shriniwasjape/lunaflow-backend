@@ -4,7 +4,7 @@ import { LogOut, Edit3, ChevronRight } from 'lucide-react';
 
 const phaseColors = ['#f43f5e', '#10b981', '#f59e0b', '#8b5cf6'];
 
-export default function ProfileTab({ userProfile, cycleData, onReset, onUpdateProfile }) {
+export default function ProfileTab({ userProfile, cycleData, onReset, onUpdateProfile, darkMode, onToggleDarkMode }) {
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState({ name: userProfile.name, lastPeriod: userProfile.lastPeriod || '' });
 
@@ -80,6 +80,19 @@ export default function ProfileTab({ userProfile, cycleData, onReset, onUpdatePr
           <ChevronRight size={16} color="rgba(255,255,255,0.3)" />
         </button>
       )}
+
+      {/* Dark Mode Toggle */}
+      <button onClick={onToggleDarkMode}
+        style={{ width: '100%', padding: '14px 18px', borderRadius: 18, background: 'rgba(168,85,247,0.07)', border: '1.5px solid rgba(168,85,247,0.18)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12, color: 'inherit' }}>
+        <span style={{ fontSize: 18 }}>{darkMode ? '☀️' : '🌙'}</span>
+        <span style={{ fontSize: 14, fontWeight: 600, flex: 1, textAlign: 'left', color: darkMode ? 'rgba(253,164,175,0.9)' : '#1f1235' }}>
+          {darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+        </span>
+        {/* Toggle pill */}
+        <div style={{ width: 44, height: 24, borderRadius: 12, background: darkMode ? 'linear-gradient(135deg,#f43f5e,#a855f7)' : 'rgba(0,0,0,0.12)', position: 'relative', transition: 'background 0.3s ease', flexShrink: 0 }}>
+          <div style={{ position: 'absolute', top: 3, left: darkMode ? 22 : 3, width: 18, height: 18, borderRadius: '50%', background: '#fff', boxShadow: '0 1px 4px rgba(0,0,0,0.25)', transition: 'left 0.3s cubic-bezier(0.4,0,0.2,1)' }} />
+        </div>
+      </button>
 
       {/* About PCOS type */}
       {pcosInfo && (

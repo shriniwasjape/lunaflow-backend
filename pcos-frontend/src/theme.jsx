@@ -1,7 +1,7 @@
 import React from 'react';
 
 // ── LunaFlow Logo (Moon + Feather SVG) ───────────────────────
-export function LunaFlowLogo({ size = 64, bgColor = '#1a0612' }) {
+export function LunaFlowLogo({ size = 64, bgColor = '#fff8f9' }) {
   return (
     <svg width={size} height={size} viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
